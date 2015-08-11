@@ -1,7 +1,7 @@
 <!--
     Custom Element with Ace code editor
     http://juicy.github.io/juicy-ace-editor/
-    version: 0.0.5
+    version: 0.1.0
 -->
 <script src="../ace/src-min-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
 <!-- <script src="../ace/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script> -->
@@ -41,7 +41,7 @@
         // Creates the shadow root
         var shadowRoot = this.createShadowRoot();
 
-        // Shim CSS if needed 
+        // Shim CSS if needed
         // http://stackoverflow.com/questions/24497569/content-polyfill-for-vanillajs-templates-and-custom-elements
         if (Platform.ShadowCSS) {
           var style = template.querySelector('style');
