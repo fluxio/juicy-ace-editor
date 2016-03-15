@@ -36,6 +36,17 @@
     // Creates an object based in the HTML Element prototype
     var TomalecAceEditorPrototype = Object.create(HTMLElement.prototype);
 
+    /**
+     * @param {Element} el The element that will dispatch the event.
+     * @param {Boolean} focused True to dispatch a focused event, False for blur.
+     */
+    function dispatchRendererFocused(el, focused) {
+        el.dispatchEvent(new CustomEvent('renderer-focused', {
+            detail: { focused: focused },
+            bubbles: true,
+        }));
+    }
+
     // Fires when an instance of the element is created
     TomalecAceEditorPrototype.createdCallback = function() {
         // Creates the shadow root
@@ -66,12 +77,13 @@
                 e.stopImmediatePropagation();
             }
         });
-            container.id = "juicy-ace-editor-container";
+
+        container.id = "juicy-ace-editor-container";
         // shadowRoot.appendChild(container);
         // Workaround as CSS styles are added to main document, and does not cross Shadow DOM boundry
-            // this.appendChild(container);
-            this.insertBefore(container, this.firstChild);
-            text && container.appendChild(text);
+        // this.appendChild(container);
+        this.insertBefore(container, this.firstChild);
+        text && container.appendChild(text);
 
 
         var editor = this.editor || ace.edit(container);
@@ -92,6 +104,13 @@
 
 
         this.editor = editor;
+
+        this.editor.addEventListener("focus", function() {
+          dispatchRendererFocused(container, true);
+        });
+        this.editor.addEventListener("blur", function() {
+          dispatchRendererFocused(container, false);
+        });
 
         // Observe input textNode changes
         // Could be buggy as editor was also added to Light DOM;
