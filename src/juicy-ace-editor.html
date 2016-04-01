@@ -112,6 +112,8 @@
           dispatchRendererFocused(container, false);
         });
 
+        this.dispatchEvent(new CustomEvent('editor-ready', {bubbles: true}));
+
         // Observe input textNode changes
         // Could be buggy as editor was also added to Light DOM;
             var observer = new MutationObserver(function(mutations) {
